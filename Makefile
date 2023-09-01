@@ -1,11 +1,12 @@
 # declaring some variables
 COMPILER := g++
 TARGET := bin/QLib
-LIB :=  -I lib/eigen/
+INC :=  -lpython3.11
+LIB:= -I/usr/include/python3.11 -DWITHOUT_NUMPY -Ilib/eigen/ 
 BINDIR := bin
 SRCDIR := src
 BUILDDIR := build
-CFLAGS := -std=c++17 -g -O3 -Wall 
+CFLAGS := -std=c++17 -g -O3 -Wall -Wno-deprecated-declarations
 
 # execute shell command 'find': src/test1.cpp src/test2.cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.cpp)
@@ -23,7 +24,7 @@ OBJECTS := $(patsubst $(SRCDIR)/%, $(BUILDDIR)/%, $(OBJECTFILES))
 $(TARGET): $(OBJECTS)
 	@echo "Linking $(OBJECTS)"
 	@mkdir -p $(BINDIR)
-	@$(COMPILER) $^ -o $(TARGET) $(LIB)
+	@$(COMPILER) $^ -o $(TARGET) $(INC)
 
 # compile object files
 # $@ = target (in this case build/%.o)
